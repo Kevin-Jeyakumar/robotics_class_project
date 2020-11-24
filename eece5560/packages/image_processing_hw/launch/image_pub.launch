@@ -1,0 +1,4 @@
+<launch>
+    <arg name="index" default="0" doc="Index of image to publish"/>
+    <node name="image_pub" pkg="image_processing_hw" type="image_pub.py" args="$(find image_processing_hw)/sample_images/image$(arg index).png" />
+</launch>
