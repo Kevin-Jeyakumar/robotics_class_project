@@ -39,5 +39,5 @@ class ErrorAction(object):
         
 if __name__ == '__main__':
     rospy.init_node('error_correction')
-    server = FibonacciAction(rospy.get_name())
+    server = ErrorAction(rospy.get_name())
     rospy.spin()

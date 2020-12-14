@@ -24,11 +24,11 @@ class Lab3:
         self.rate = rospy.Rate(5)
 
     def callback(self, data):
-        rospy.logwarn("LAB3 CALLBACK")
+        rospy.logwarn("DATA_PHI = %f", data.phi)
         control_d = self.pid_d.get_acc(data.d, rospy.get_time())
         control_phi = self.pid_phi.get_acc(data.phi, rospy.get_time())
 
-        if data.phi > 10:
+        if abs(data.phi) > 1:
             # Send request to action server
             self.client.wait_for_server()
             goal = lane_follow_isaac.msg.ErrorGoal(error=data.phi)
@@ -46,6 +46,9 @@ class Lab3:
             self.client.wait_for_result()
             res = self.client.get_result()  # A ErrorResult
 
+            self.pid_d.reset_controller()
+            self.pid_phi.reset_controller()
+
             for i in range(5):
                 self.turn(res.correction)
             for i in range(5):
@@ -57,7 +60,6 @@ class Lab3:
         else:
             self.speed.v = 0.4
             self.speed.omega = control_d + control_phi - 0.25
-            rospy.logwarn("OMEGA = %f", self.speed.omega)
             rospy.loginfo(self.speed)
             self.pub.publish(self.speed)
 
@@ -73,9 +75,11 @@ class Lab3:
         rospy.loginfo(self.speed)
         self.pub.publish(self.speed)
 
-    def turn(self, turning):
+    def turn(self, data):
+        control_phi = self.pid_phi.get_acc(data, rospy.get_time())
+        
         self.speed.v = 0.0
-        self.speed.omega = turning
+        self.speed.omega = control_phi
         rospy.loginfo(self.speed)
         self.pub.publish(self.speed)
 
