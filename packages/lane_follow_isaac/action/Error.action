@@ -1,8 +1,8 @@
 #goal definition
-int32 order
+float32 error
 ---
 #result definition
-int32[] sequence
+float32 correction
 ---
 #feedback
-int32[] sequence
+float32 correction

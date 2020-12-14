@@ -3,6 +3,7 @@
 import rospy
 import actionlib
 import lane_follow_isaac.msg
+from std_msgs.msg import Float32
 
 class ErrorAction(object):
     # create messages that are used to publish feedback/result
@@ -22,14 +23,7 @@ class ErrorAction(object):
         rospy.loginfo('%s: Lane lost, executing error correction from error %i' % (self._action_name, goal.error))
         
         # start executing the action
-        # check that preempt has not been requested by the client
-        if self._as.is_preempt_requested():
-            rospy.loginfo('%s: Preempted' % self._action_name)
-            self._as.set_preempted()
-            success = False
-            break
         self._feedback.correction = goal.error / 2
-        # publish the feedback
         self._as.publish_feedback(self._feedback)
           
         if success:

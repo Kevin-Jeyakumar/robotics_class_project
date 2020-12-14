@@ -11,7 +11,6 @@ class Lab3:
     def __init__(self):
         self.pub = rospy.Publisher("car_cmd_switch_node/cmd", Twist2DStamped, queue_size=10)
         self.sub = rospy.Subscriber("lane_filter_node/lane_pose", LanePose, self.callback)
-        self.client = actionlib.SimpleActionClient('error_correction', lane_follow_isaac.msg.ErrorAction)
 
         self.pose = LanePose()
         self.speed = Twist2DStamped()
@@ -29,10 +28,7 @@ class Lab3:
         control_phi = self.pid_phi.get_acc(data.phi, rospy.get_time())
 
         if abs(data.phi) > 1:
-            # Send request to action server
-            self.client.wait_for_server()
-            goal = lane_follow_isaac.msg.ErrorGoal(error=data.phi)
-            self.client.send_goal(goal)
+            rospy.logwarn("Off the tracks")
 
             # Reverse in preparation
             for i in range(5):
@@ -42,9 +38,23 @@ class Lab3:
             for i in range(5):
                 self.stop()
 
+            rospy.logwarn("Reversed and stopped")
+
+            # Create client            
+            client = actionlib.SimpleActionClient('error_correction', lane_follow_isaac.msg.ErrorAction)
+            rospy.logwarn("Created client")
+            client.wait_for_server()
+            rospy.logwarn("Finished waiting for Creation")
+
+            # Send request to action server
+            goal = lane_follow_isaac.msg.ErrorGoal(error=data.phi)
+            client.send_goal(goal)
+            rospy.logwarn("Goal sent")
+
             # Get correction result from action server
-            self.client.wait_for_result()
-            res = self.client.get_result()  # A ErrorResult
+            client.wait_for_result()
+            rospy.logwarn("Finished waiting for result")
+            res = client.get_result()  # A ErrorResult
 
             self.pid_d.reset_controller()
             self.pid_phi.reset_controller()
