@@ -1,20 +1,14 @@
 #! /usr/bin/env python3
-# source http://wiki.ros.org/actionlib_tutorials/Tutorials/Writing%20a%20Simple%20Action%20Client%20%28Python%29
 
 import rospy
-
-# Brings in the SimpleActionClient
 import actionlib
-
-# Brings in the messages used by the fibonacci action, including the
-# goal message and the result message.
-import action_server.msg
+import lane_follow_isaac.msg
 
 def fibonacci_client():
     # Creates the SimpleActionClient, passing the type of the action
-    # (FibonacciAction) to the constructor.
+    # (ErrorAction) to the constructor.
     print("starting client")
-    client = actionlib.SimpleActionClient('fibonacci', example_action_server.msg.FibonacciAction)
+    client = actionlib.SimpleActionClient('error_correction', lane_follow_isaac.msg.ErrorAction)
 
     print("waiting for server")
     # Waits until the action server has started up and started
@@ -23,7 +17,7 @@ def fibonacci_client():
     
     print("sending goal")
     # Creates a goal to send to the action server.
-    goal = example_action_server.msg.FibonacciGoal(order=10)
+    goal = lane_follow_isaac.msg.ErrorGoal(error=10)
 
     # Sends the goal to the action server.
     client.send_goal(goal)
@@ -33,7 +27,7 @@ def fibonacci_client():
     client.wait_for_result()
 
     # Prints out the result of executing the action
-    return client.get_result()  # A FibonacciResult
+    return client.get_result()  # A ErrorResult
 
 if __name__ == '__main__':
     try:

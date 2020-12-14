@@ -15,6 +15,11 @@ class PID_Controller:
         self.ki = i
         self.kd = d
 
+    def reset_controller(self):
+        self.last_time = 0
+        self.last_error = 0
+        self.i_term = 0
+
     def get_acc(self, error, time):
         p_term = error
 
