@@ -1,5 +1,5 @@
 # parameters
-ARG REPO_NAME="uml_robotics_project"
+ARG REPO_NAME="robotics_class_project"
 ARG DESCRIPTION="Project repo for UML EECE 5560"
 ARG MAINTAINER="Kevin Jeyakumar (kevinjk2011@live.com)"
 # pick an icon from: https://fontawesome.com/v4.7.0/icons/
