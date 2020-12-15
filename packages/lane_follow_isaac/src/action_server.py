@@ -4,6 +4,7 @@ import rospy
 import actionlib
 import lane_follow_isaac.msg
 from std_msgs.msg import Float32
+from math import cos, pi
 
 class ErrorAction(object):
     # create messages that are used to publish feedback/result
@@ -23,7 +24,7 @@ class ErrorAction(object):
         rospy.loginfo('%s: Lane lost, executing error correction from error %i' % (self._action_name, goal.error))
         
         # start executing the action
-        self._feedback.correction = goal.error / 2
+        self._feedback.correction = cos(pi/3) * goal.error
         self._as.publish_feedback(self._feedback)
           
         if success:
