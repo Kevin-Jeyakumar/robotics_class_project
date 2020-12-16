@@ -1,0 +1,5 @@
+<launch>
+  <group ns="$(env VEHICLE_NAME)">
+    <node pkg="led_mod_pkg" name="brake_lights_node" type="brake_lights.py"/>
+  </group>
+</launch>
