@@ -36,6 +36,7 @@
   <param name="kp_phi" type="double" value="-8"/>
 
   <group ns="$(env VEHICLE_NAME)">
+    <node pkg="led_mod_pkg" name="brake_lights_node" type="brake_lights.py"/>
     <node pkg="lane_follow_isaac" name="lane_follow" type="lane_follow.py"/>
     <node pkg="lane_follow_isaac" name="error_correction" type="action_server.py"/>
   </group>

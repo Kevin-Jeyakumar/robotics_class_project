@@ -12,15 +12,13 @@ class Brake_Lights:
         self.current_reverse = 0
         self.past_reverse = 0
         temp_string = String()
-        temp_string.data = "RED"
-        #self.obj("pattern_name: {data: RED}")
+        temp_string.data = "CAR_DRIVING"
         self.obj(temp_string)
         rospy.loginfo("Started")
 
     def callback(self, data):
-        #self.obj("pattern_name: {data: RED}")
         #return
-        if data.v <= 0:
+        if data.v < 0:
             self.current_reverse = 1
         else:
             self.current_reverse = 0
@@ -30,9 +28,9 @@ class Brake_Lights:
         pattern_str = String()
 
         if self.current_reverse == 1:
-            pattern_str.data = "RED"
+            pattern_str.data = "CAR_SIGNAL_SACRIFICE_FOR_PRIORITY"
         else:
-            pattern_str.data = "WHITE"
+            pattern_str.data = "CAR_DRIVING"
         self.obj(pattern_str)
         self.past_reverse = self.current_reverse
 
