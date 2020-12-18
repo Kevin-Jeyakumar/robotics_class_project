@@ -1,20 +1,7 @@
-# Template: eece5560-base
-
+# EECE560 Robotics Final Project
 This template provides a boilerplate repository
 for developing ROS-based software in Duckietown.
 Use it for UML EECE 5560
-
-## How to use it
-
-Create a new repository on github.com while
-specifying the newly forked template repository as
-a template for your new repository.
-
-### Place your code
-
-Place your code in the directory `/packages/` of
-your new repository.
-
 
 ### Setup launchers
 
